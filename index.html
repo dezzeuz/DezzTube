@@ -3,189 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YouTube Clone</title>
+    <title>YouTube Clone - Full Interactive</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Roboto (Font Standar YouTube) -->
+    <!-- Google Fonts: Roboto -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Material Symbols untuk Ikon -->
+    <!-- Material Symbols -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
 
     <style>
-        body { 
-            font-family: 'Roboto', sans-serif; 
-            -webkit-tap-highlight-color: transparent;
+        body { font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        /* Efek klik animasi */
+        .active-click:active { opacity: 0.6; transform: scale(0.98); }
+        
+        /* Animasi Subscribe Sparkle (Simulasi) */
+        @keyframes sparkle {
+            0% { transform: scale(1); background-color: #ef4444; }
+            50% { transform: scale(1.02); background-color: #fca5a5; }
+            100% { transform: scale(1); background-color: #f3f4f6; color: black; }
         }
-        /* Sembunyikan scrollbar tapi tetap bisa di-scroll */
-        .no-scrollbar::-webkit-scrollbar { 
-            display: none; 
-        }
-        .no-scrollbar { 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
-        }
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-        }
+        .anim-subscribe { animation: sparkle 0.4s ease-out forwards; }
     </style>
 </head>
-<body class="bg-white text-black h-screen flex flex-col m-0 p-0 overflow-hidden">
+<body class="bg-white text-black h-screen flex flex-col m-0 p-0 overflow-hidden relative">
 
-    <!-- HEADER / TOP BAR -->
-    <header class="flex justify-between items-center px-4 py-2 bg-white z-10">
-        <!-- Logo YouTube -->
-        <div class="flex items-center gap-1">
-            <svg viewBox="0 0 24 24" class="h-7 w-8 text-red-600 fill-current">
-                <path d="M21.58 6.42c-.22-.84-.87-1.49-1.72-1.7C18.34 4.34 12 4.34 12 4.34s-6.34 0-7.86.38c-.85.22-1.5.87-1.72 1.7C2 7.95 2 12 2 12s0 4.05.42 5.58c.22.84.87 1.49 1.72 1.7 1.52.38 7.86.38 7.86.38s6.34 0 7.86-.38c.85-.22 1.5-.87 1.72-1.7.42-1.53.42-5.58.42-5.58s0-4.05-.42-5.58zM9.67 15V9l5.67 3-5.67 3z"/>
-            </svg>
-            <span class="font-bold text-xl tracking-tighter" style="letter-spacing: -1px;">YouTube</span>
+    <!-- ========================================== -->
+    <!-- VIEW: BERANDA -->
+    <!-- ========================================== -->
+    <div id="view-home" class="view-section flex flex-col h-full w-full absolute inset-0 pb-[50px] z-10 bg-white">
+        <header class="flex justify-between items-center px-4 py-2 bg-white z-20">
+            <div class="flex items-center gap-1">
+                <svg viewBox="0 0 24 24" class="h-7 w-8 text-red-600 fill-current"><path d="M21.58 6.42c-.22-.84-.87-1.49-1.72-1.7C18.34 4.34 12 4.34 12 4.34s-6.34 0-7.86.38c-.85.22-1.5.87-1.72 1.7C2 7.95 2 12 2 12s0 4.05.42 5.58c.22.84.87 1.49 1.72 1.7 1.52.38 7.86.38 7.86.38s6.34 0 7.86-.38c.85-.22 1.5-.87 1.72-1.7.42-1.53.42-5.58.42-5.58s0-4.05-.42-5.58zM9.67 15V9l5.67 3-5.67 3z"/></svg>
+                <span class="font-bold text-xl tracking-tighter" style="letter-spacing: -1px;">YouTube</span>
+            </div>
+            <div class="flex items-center gap-5 text-gray-700">
+                <span class="material-symbols-outlined text-[26px] active-click cursor-pointer">notifications</span>
+                <span class="material-symbols-outlined text-[26px] active-click cursor-pointer" onclick="openSearch()">search</span>
+            </div>
+        </header>
+        
+        <div class="flex overflow-x-auto no-scrollbar gap-3 px-4 py-2 bg-white border-b border-gray-200 z-20">
+            <div class="bg-gray-100 p-1.5 px-2 rounded flex-shrink-0"><span class="material-symbols-outlined text-[20px]">explore</span></div>
+            <button class="bg-[#0f0f0f] text-white px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Semua</button>
+            <button class="bg-gray-100 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap active-click">Game</button>
+            <button class="bg-gray-100 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap active-click">Minecraft mod</button>
         </div>
-        <!-- Ikon Kanan -->
-        <div class="flex items-center gap-5">
-            <span class="material-symbols-outlined text-[26px]">notifications</span>
-            <span class="material-symbols-outlined text-[26px]">search</span>
-        </div>
-    </header>
 
-    <!-- FILTER KATEGORI -->
-    <div class="flex overflow-x-auto no-scrollbar gap-3 px-4 py-2 bg-white border-b border-gray-200 items-center z-10">
-        <div class="bg-gray-100 p-1.5 px-2 rounded flex-shrink-0 flex items-center justify-center">
-            <span class="material-symbols-outlined text-[20px]">explore</span>
-        </div>
-        <!-- Active Filter -->
-        <button class="bg-[#0f0f0f] text-white px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Semua</button>
-        <!-- Inactive Filters -->
-        <button class="bg-gray-100 text-black px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Game</button>
-        <button class="bg-gray-100 text-black px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Musik</button>
-        <button class="bg-gray-100 text-black px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Minecraft mod</button>
+        <main class="flex-1 overflow-y-auto no-scrollbar">
+            <!-- Video Item -->
+            <div class="w-full flex flex-col mb-4 cursor-pointer active-click" onclick="openChannel()">
+                <div class="relative w-full aspect-video bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover">
+                    <span class="absolute bottom-1.5 right-2 bg-black/80 text-white text-[11px] font-medium px-1 rounded">19.39</span>
+                </div>
+                <div class="flex gap-3 px-3 mt-3">
+                    <img src="https://ui-avatars.com/api/?name=U&background=0D8ABC&color=fff" class="w-10 h-10 rounded-full object-cover">
+                    <div class="flex flex-col flex-1 pr-2">
+                        <div class="flex justify-between items-start gap-2">
+                            <h3 class="font-medium text-sm leading-tight line-clamp-2">Upin & Ipin - Pin Pin Pom (Full Episode)</h3>
+                            <span class="material-symbols-outlined text-gray-500 text-[20px]">more_vert</span>
+                        </div>
+                        <p class="text-[12px] text-gray-500 mt-1">Upin & Ipin TV • 36 rb x ditonton • 1 hari yang lalu</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 text-center text-gray-500 text-sm border-t border-gray-100">Buka tab lain atau klik channel di atas untuk tes fitur lain.</div>
+        </main>
     </div>
 
-    <!-- MAIN CONTENT (SCROLLABLE AREA) -->
-    <main class="flex-1 overflow-y-auto no-scrollbar pb-[60px]">
+    <!-- ========================================== -->
+    <!-- VIEW: SHORTS -->
+    <!-- ========================================== -->
+    <div id="view-shorts" class="view-section hidden flex flex-col h-full w-full absolute inset-0 pb-[50px] z-10 bg-black text-white">
+        <header class="absolute top-0 w-full flex justify-between items-center px-4 py-3 z-20">
+            <span class="material-symbols-outlined text-white text-[28px] active-click cursor-pointer" onclick="openSearch()">search</span>
+            <span class="material-symbols-outlined text-white text-[28px]">more_vert</span>
+        </header>
         
-        <!-- VIDEO UTAMA -->
-        <div class="w-full flex flex-col mb-4">
-            <!-- Thumbnail -->
-            <div class="relative w-full aspect-video bg-gray-200">
-                <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Kamen Rider Thumbnail" class="w-full h-full object-cover">
-                <!-- Durasi -->
-                <span class="absolute bottom-1.5 right-2 bg-black/80 text-white text-[11px] font-medium px-1 rounded">1.33</span>
-            </div>
+        <main class="flex-1 relative overflow-hidden bg-gray-900">
+            <!-- Dummy Shorts Video Image -->
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-80">
             
-            <!-- Info Video -->
-            <div class="flex gap-3 px-3 mt-3">
-                <!-- Avatar Channel -->
-                <img src="https://ui-avatars.com/api/?name=BG&background=0D8ABC&color=fff" class="w-10 h-10 rounded-full object-cover" alt="Avatar">
-                
-                <div class="flex flex-col flex-1 pr-2">
-                    <div class="flex justify-between items-start gap-2">
-                        <h3 class="font-medium text-sm leading-tight line-clamp-2">KAMEN RIDERS CLIMAX SCRAMBLE #13 GAMEPLAY</h3>
-                        <span class="material-symbols-outlined text-gray-500 text-[20px]">more_vert</span>
+            <!-- Side Actions -->
+            <div class="absolute right-2 bottom-20 flex flex-col items-center gap-5 z-20">
+                <div class="flex flex-col items-center gap-1 active-click cursor-pointer"><span class="material-symbols-rounded text-[32px]">thumb_up</span><span class="text-[11px]">65 rb</span></div>
+                <div class="flex flex-col items-center gap-1 active-click cursor-pointer"><span class="material-symbols-rounded text-[32px]">thumb_down</span><span class="text-[11px]">Dislike</span></div>
+                <div class="flex flex-col items-center gap-1 active-click cursor-pointer"><span class="material-symbols-rounded text-[32px]">comment</span><span class="text-[11px]">638</span></div>
+                <div class="flex flex-col items-center gap-1 active-click cursor-pointer"><span class="material-symbols-rounded text-[32px]">share</span><span class="text-[11px]">Bagikan</span></div>
+                <div class="flex flex-col items-center gap-1 active-click cursor-pointer"><span class="material-symbols-outlined text-[32px]">cached</span><span class="text-[11px]">Remix</span></div>
+                <img src="https://ui-avatars.com/api/?name=S&background=000&color=fff" class="w-10 h-10 rounded-md mt-2 border-2 border-white object-cover">
+            </div>
+
+            <!-- Bottom Info -->
+            <div class="absolute bottom-4 left-4 right-16 z-20">
+                <div class="flex items-center gap-2 mb-2">
+                    <img src="https://ui-avatars.com/api/?name=SM&background=fff&color=000" class="w-8 h-8 rounded-full">
+                    <span class="font-medium text-sm">@SukaMainMedia</span>
+                    <button class="bg-white text-black px-3 py-1 rounded-full text-xs font-medium active-click">Subscribe</button>
+                </div>
+                <p class="text-sm font-medium line-clamp-1">Dear Passengers vs Land or Die, Siapa Sebena...</p>
+                <div class="flex items-center gap-3 mt-2 overflow-x-hidden">
+                    <div class="flex items-center bg-white/20 px-2 py-1 rounded-full text-[11px] gap-1 whitespace-nowrap"><span class="material-symbols-outlined text-[14px]">play_arrow</span>Dear Passengers, ...</div>
+                    <div class="flex items-center bg-white/20 px-2 py-1 rounded-full text-[11px] gap-1 whitespace-nowrap"><span class="material-symbols-outlined text-[14px]">music_note</span>Funny • Gold-Tiger</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW: ANDA (PROFIL) -->
+    <!-- ========================================== -->
+    <div id="view-profile" class="view-section hidden flex flex-col h-full w-full absolute inset-0 pb-[50px] z-10 bg-white">
+        <header class="flex justify-between items-center px-4 py-2 bg-white z-20">
+            <div class="flex items-center gap-1">
+                <svg viewBox="0 0 24 24" class="h-7 w-8 text-red-600 fill-current"><path d="M21.58 6.42c-.22-.84-.87-1.49-1.72-1.7C18.34 4.34 12 4.34 12 4.34s-6.34 0-7.86.38c-.85.22-1.5.87-1.72 1.7C2 7.95 2 12 2 12s0 4.05.42 5.58c.22.84.87 1.49 1.72 1.7 1.52.38 7.86.38 7.86.38s6.34 0 7.86-.38c.85-.22 1.5-.87 1.72-1.7.42-1.53.42-5.58.42-5.58s0-4.05-.42-5.58zM9.67 15V9l5.67 3-5.67 3z"/></svg>
+                <span class="font-bold text-xl tracking-tighter" style="letter-spacing: -1px;">YouTube</span>
+            </div>
+            <div class="flex items-center gap-5 text-gray-700">
+                <span class="material-symbols-outlined text-[26px] active-click cursor-pointer" onclick="openSearch()">search</span>
+                <span class="material-symbols-outlined text-[26px] active-click cursor-pointer">settings</span>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto no-scrollbar">
+            <!-- Profil Info -->
+            <div class="flex items-center gap-4 px-4 mt-2">
+                <img src="https://ui-avatars.com/api/?name=DT&background=f87171&color=fff" class="w-[72px] h-[72px] rounded-full">
+                <div>
+                    <h1 class="text-2xl font-bold">Dezz Tobrut</h1>
+                    <p class="text-sm text-gray-600 mt-0.5">Buat channel</p>
+                </div>
+            </div>
+            <!-- Tombol Akun -->
+            <div class="flex gap-2 px-4 mt-4">
+                <button class="flex-1 bg-gray-100 hover:bg-gray-200 py-1.5 rounded-full text-sm font-medium flex items-center justify-center gap-1 active-click">
+                    <span class="material-symbols-outlined text-[18px]">switch_account</span> Ganti akun
+                </button>
+                <button class="flex-1 bg-gray-100 hover:bg-gray-200 py-1.5 rounded-full text-sm font-medium flex items-center justify-center gap-1 active-click">
+                    <span class="material-symbols-outlined text-[18px]">g_mobiledata</span> Akun Google
+                </button>
+            </div>
+
+            <!-- Histori -->
+            <div class="mt-6">
+                <div class="flex justify-between items-center px-4 mb-2">
+                    <h2 class="font-bold text-[18px]">Histori</h2>
+                    <button class="border border-gray-200 px-3 py-1 rounded-full text-sm font-medium active-click">Lihat semua</button>
+                </div>
+                <div class="flex overflow-x-auto no-scrollbar gap-3 px-4 pb-2">
+                    <!-- Item Histori 1 -->
+                    <div class="w-[160px] flex-shrink-0 cursor-pointer active-click">
+                        <div class="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                            <span class="absolute bottom-1 right-1 bg-black/80 text-white text-[11px] px-1 rounded">13.55</span>
+                        </div>
+                        <h3 class="font-medium text-sm mt-2 line-clamp-2 leading-tight">Dosen Ilmu Politik & Peneliti Bahas soal...</h3>
+                        <p class="text-[12px] text-gray-500 mt-1">KOMPASTV</p>
                     </div>
-                    <p class="text-[12px] text-gray-500 mt-1">Bang'z Gaming <span class="mx-0.5">•</span> 2,8 rb <span class="mx-0.5">•</span> 1 h lalu</p>
+                    <!-- Item Histori 2 -->
+                    <div class="w-[160px] flex-shrink-0 cursor-pointer active-click">
+                        <div class="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1607513813622-0d17d1219ee8?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                            <span class="absolute bottom-1 right-1 bg-black/80 text-white text-[11px] px-1 rounded">28.42</span>
+                        </div>
+                        <h3 class="font-medium text-sm mt-2 line-clamp-2 leading-tight">EP02 - BoBoiBoy Galaxy Baraju | Di...</h3>
+                        <p class="text-[12px] text-gray-500 mt-1">Monsta</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- SHORTS SECTION -->
-        <div class="mb-2 pt-2 border-t border-gray-200">
-            <!-- Shorts Header -->
-            <div class="flex items-center justify-between px-4 mb-3 mt-2">
-                <div class="flex items-center gap-2">
-                    <!-- Logo Shorts Merah -->
-                    <svg class="w-6 h-6 text-red-600 fill-current" viewBox="0 0 24 24">
-                        <path d="M17.77,10.32l-1.2-.5L18,9.06a3.74,3.74,0,0,0-3.5-6.62L6,6.94a3.74,3.74,0,0,0,.23,6.74l1.2.49L6,14.93a3.75,3.75,0,0,0,3.5,6.63l8.5-4.5a3.74,3.74,0,0,0-.23-6.74Z"/>
-                        <polygon fill="#fff" points="10 14.65 15 12 10 9.35 10 14.65"/>
-                    </svg>
-                    <h2 class="font-bold text-lg">Shorts</h2>
+            <!-- Playlist -->
+            <div class="mt-4 border-t border-gray-100 pt-4">
+                <div class="flex justify-between items-center px-4 mb-2">
+                    <h2 class="font-bold text-[18px]">Playlist</h2>
+                    <button class="border border-gray-200 px-3 py-1 rounded-full text-sm font-medium active-click">Lihat semua</button>
                 </div>
-                <span class="material-symbols-outlined text-[20px] text-gray-900">more_vert</span>
+                <div class="flex overflow-x-auto no-scrollbar gap-3 px-4 pb-4">
+                    <!-- Playlist 1 -->
+                    <div class="w-[160px] flex-shrink-0 cursor-pointer active-click">
+                        <div class="relative aspect-video rounded-xl bg-gray-500 flex items-center justify-center">
+                            <!-- Stack overlay effect -->
+                            <div class="absolute -top-1 left-2 right-2 h-2 bg-gray-400 rounded-t-xl z-0"></div>
+                            <span class="material-symbols-outlined text-white text-[32px] z-10">schedule</span>
+                        </div>
+                        <h3 class="font-medium text-sm mt-2">Tonton nanti</h3>
+                        <p class="text-[12px] text-gray-500">Playlist</p>
+                    </div>
+                    <!-- Playlist 2 -->
+                    <div class="w-[160px] flex-shrink-0 cursor-pointer active-click">
+                        <div class="relative aspect-video rounded-xl bg-gray-500 flex items-center justify-center">
+                            <div class="absolute -top-1 left-2 right-2 h-2 bg-gray-400 rounded-t-xl z-0"></div>
+                            <span class="material-symbols-outlined text-white text-[32px] z-10">thumb_up</span>
+                        </div>
+                        <h3 class="font-medium text-sm mt-2">Video yang disukai</h3>
+                        <p class="text-[12px] text-gray-500">Playlist</p>
+                    </div>
+                </div>
             </div>
+        </main>
+    </div>
 
-            <!-- Shorts Grid 2 Kolom -->
-            <div class="grid grid-cols-2 gap-2 px-3">
+    <!-- ========================================== -->
+    <!-- OVERLAY: SEARCH -->
+    <!-- ========================================== -->
+    <div id="view-search" class="view-section hidden absolute inset-0 z-50 bg-white flex flex-col h-full w-full">
+        <header class="flex items-center gap-3 px-2 py-2 bg-white">
+            <button class="p-2 active-click rounded-full" onclick="closeSearch()">
+                <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            </button>
+            <div class="flex-1 bg-gray-100 rounded-full flex items-center px-4 py-1.5">
+                <input type="text" value="Telusuri YouTube" class="bg-transparent w-full outline-none text-[15px]" readonly>
+            </div>
+            <button class="p-2 bg-gray-100 rounded-full active-click">
+                <span class="material-symbols-outlined text-[20px]">mic</span>
+            </button>
+        </header>
+
+        <main class="flex-1 overflow-y-auto mt-2">
+            <h3 class="font-bold text-[18px] px-4 py-2">Mungkin Anda suka</h3>
+            <ul class="flex flex-col text-[15px]">
+                <li class="flex justify-between items-center px-5 py-3 active-click cursor-pointer hover:bg-gray-50">
+                    <span>hay day mod apk</span>
+                    <span class="material-symbols-outlined text-gray-500 text-[20px]">north_west</span>
+                </li>
+                <li class="flex justify-between items-center px-5 py-3 active-click cursor-pointer hover:bg-gray-50">
+                    <span>cara nurunin shock belakang beat esp 2018</span>
+                    <span class="material-symbols-outlined text-gray-500 text-[20px]">north_west</span>
+                </li>
+                <li class="flex justify-between items-center px-5 py-3 active-click cursor-pointer hover:bg-gray-50">
+                    <span>animash 273 mod apk</span>
+                    <span class="material-symbols-outlined text-gray-500 text-[20px]">north_west</span>
+                </li>
+                <li class="flex justify-between items-center px-5 py-3 active-click cursor-pointer hover:bg-gray-50">
+                    <span>tools termux hacking</span>
+                    <span class="material-symbols-outlined text-gray-500 text-[20px]">north_west</span>
+                </li>
+                <li class="flex justify-between items-center px-5 py-3 active-click cursor-pointer hover:bg-gray-50">
+                    <span>minecraft addon</span>
+                    <span class="material-symbols-outlined text-gray-500 text-[20px]">north_west</span>
+                </li>
+            </ul>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW: CHANNEL (UPIN & IPIN) -->
+    <!-- ========================================== -->
+    <div id="view-channel" class="view-section hidden flex flex-col h-full w-full absolute inset-0 z-40 bg-white pb-[50px]">
+        <header class="flex justify-between items-center px-2 py-2 bg-white">
+            <div class="flex items-center gap-2">
+                <button class="p-2 active-click rounded-full" onclick="closeChannel()">
+                    <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+                </button>
+                <span class="font-bold text-[18px]">Upin & Ipin TV</span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-700 mr-2">
+                <span class="material-symbols-outlined text-[24px] active-click cursor-pointer">cast</span>
+                <span class="material-symbols-outlined text-[24px] active-click cursor-pointer" onclick="openSearch()">search</span>
+                <span class="material-symbols-outlined text-[24px] active-click cursor-pointer">more_vert</span>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto no-scrollbar">
+            <!-- Info Channel -->
+            <div class="flex flex-col items-center pt-2 px-4">
+                <img src="https://ui-avatars.com/api/?name=UI&background=0D8ABC&color=fff&rounded=true" class="w-[72px] h-[72px]">
+                <h1 class="text-2xl font-bold mt-2">Upin & Ipin TV</h1>
+                <p class="text-sm text-gray-600">@UpinIpinTVofficial</p>
+                <p class="text-sm text-gray-600">187 rb subscriber • 123 video</p>
+                <p class="text-xs text-gray-500 mt-2 line-clamp-1 w-full text-center">Selengkapnya tentang channel ini ...<span class="font-bold">selengkapnya</span></p>
                 
-                <!-- Short 1 -->
-                <div class="relative w-full aspect-[9/16] rounded-lg overflow-hidden bg-gray-200">
-                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                    <!-- Gradient bawah -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    <!-- 3 Titik Atas -->
-                    <span class="absolute top-2 right-1 material-symbols-outlined text-white text-[20px]">more_vert</span>
-                    <!-- Judul -->
-                    <p class="absolute bottom-3 left-2 right-2 text-white text-[13px] font-medium leading-snug line-clamp-2">Episode Shizuka bertukar tubuh dengan Nobita...</p>
-                </div>
-
-                <!-- Short 2 -->
-                <div class="relative w-full aspect-[9/16] rounded-lg overflow-hidden bg-gray-200">
-                    <img src="https://images.unsplash.com/photo-1620336655055-088d06e36bf0?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    <span class="absolute top-2 right-1 material-symbols-outlined text-white text-[20px]">more_vert</span>
-                    <p class="absolute bottom-3 left-2 right-2 text-white text-[13px] font-medium leading-snug line-clamp-2">rajin banget loh ya😸...</p>
-                </div>
-
-                <!-- Short 3 (Dengan Badge Baru) -->
-                <div class="relative w-full aspect-[9/16] rounded-lg overflow-hidden bg-gray-200 mt-2">
-                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    <!-- Badge Baru -->
-                    <span class="absolute top-2 left-2 bg-white text-black text-[10px] font-bold px-1.5 py-0.5 rounded-sm">Baru</span>
-                    <span class="absolute top-2 right-1 material-symbols-outlined text-white text-[20px]">more_vert</span>
-                    <p class="absolute bottom-3 left-2 right-2 text-white text-[13px] font-medium leading-snug line-clamp-2">GAME STEAM INI NYONTEK</p>
-                </div>
-
-                <!-- Short 4 (Dengan Badge Baru) -->
-                <div class="relative w-full aspect-[9/16] rounded-lg overflow-hidden bg-gray-200 mt-2">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    <span class="absolute top-2 left-2 bg-white text-black text-[10px] font-bold px-1.5 py-0.5 rounded-sm">Baru</span>
-                    <span class="absolute top-2 right-1 material-symbols-outlined text-white text-[20px]">more_vert</span>
-                    <p class="absolute bottom-3 left-2 right-2 text-white text-[13px] font-medium leading-snug line-clamp-2">Chisa YETE</p>
-                </div>
-
+                <!-- Tombol Subscribe Interaktif -->
+                <button id="btn-subscribe" onclick="toggleSubscribe(this)" class="bg-black text-white px-4 py-2 rounded-full w-full font-medium mt-3 transition-all active-click">
+                    Subscribe
+                </button>
             </div>
-        </div>
-    </main>
 
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="fixed bottom-0 w-full bg-white flex justify-between items-center py-1.5 px-2 border-t border-gray-200 z-20">
-        
-        <!-- Menu Beranda (Aktif) -->
-        <div class="flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer">
+            <!-- Tabs -->
+            <div class="flex overflow-x-auto no-scrollbar mt-4 border-b border-gray-200">
+                <div class="px-4 py-3 font-medium text-black border-b-2 border-black whitespace-nowrap">Video</div>
+                <div class="px-4 py-3 font-medium text-gray-500 whitespace-nowrap">Posting</div>
+                <div class="px-4 py-3 font-medium text-gray-500 whitespace-nowrap">Penelusuran</div>
+            </div>
+
+            <!-- Filter Video -->
+            <div class="flex gap-2 px-4 py-3">
+                <button class="bg-black text-white px-3 py-1.5 rounded-lg text-sm font-medium">Terbaru</button>
+                <button class="bg-gray-100 text-black px-3 py-1.5 rounded-lg text-sm font-medium">Populer</button>
+                <button class="bg-gray-100 text-black px-3 py-1.5 rounded-lg text-sm font-medium">Terlama</button>
+            </div>
+
+            <!-- Daftar Video Channel -->
+            <div class="flex flex-col px-4 gap-4 pb-4">
+                <!-- List 1 -->
+                <div class="flex gap-3">
+                    <div class="relative w-40 aspect-video rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8892b0e463?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <span class="absolute bottom-1 right-1 bg-black/80 text-white text-[11px] font-medium px-1 rounded">Mendatang</span>
+                    </div>
+                    <div class="flex flex-col justify-start">
+                        <h3 class="font-medium text-sm line-clamp-2 leading-tight">Upin & Ipin Musim - Selamat Hari Jadi Upin & Ipin (Full...</h3>
+                        <p class="text-[11px] text-gray-500 mt-1">Tayang perdana pada 2...</p>
+                        <p class="text-[11px] text-gray-500">8 penonton menunggu</p>
+                    </div>
+                </div>
+                <!-- List 2 -->
+                <div class="flex gap-3">
+                    <div class="relative w-40 aspect-video rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                        <span class="absolute bottom-1 right-1 bg-black/80 text-white text-[11px] font-medium px-1 rounded">19.39</span>
+                    </div>
+                    <div class="flex flex-col justify-start">
+                        <h3 class="font-medium text-sm line-clamp-2 leading-tight">Upin & Ipin - Pin Pin Pom (Full Episode)</h3>
+                        <p class="text-[11px] text-gray-500 mt-1">36 rb x ditonton</p>
+                        <p class="text-[11px] text-gray-500">1 hari yang lalu</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- BOTTOM NAVIGATION (GLOBAL) -->
+    <!-- ========================================== -->
+    <nav class="fixed bottom-0 w-full bg-white flex justify-between items-center py-1.5 px-2 border-t border-gray-200 z-30 h-[50px]">
+        <div onclick="switchView('view-home', this)" class="nav-btn flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-black">
             <span class="material-symbols-rounded text-[26px]">home</span>
             <span class="text-[10px] font-medium">Beranda</span>
         </div>
-        
-        <!-- Menu Shorts (Outline) -->
-        <div class="flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-gray-700">
-            <!-- Ikon Shorts Outline -->
-            <svg class="w-6 h-6 fill-none stroke-current stroke-[1.5]" viewBox="0 0 24 24">
-                <path d="M17.77,10.32l-1.2-.5L18,9.06a3.74,3.74,0,0,0-3.5-6.62L6,6.94a3.74,3.74,0,0,0,.23,6.74l1.2.49L6,14.93a3.75,3.75,0,0,0,3.5,6.63l8.5-4.5a3.74,3.74,0,0,0-.23-6.74Z"/>
-                <polygon fill="currentColor" stroke="none" points="10 14.65 15 12 10 9.35 10 14.65"/>
-            </svg>
+        <div onclick="switchView('view-shorts', this)" class="nav-btn flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-gray-700">
+            <svg class="w-6 h-6 fill-none stroke-current stroke-[1.5]" viewBox="0 0 24 24"><path d="M17.77,10.32l-1.2-.5L18,9.06a3.74,3.74,0,0,0-3.5-6.62L6,6.94a3.74,3.74,0,0,0,.23,6.74l1.2.49L6,14.93a3.75,3.75,0,0,0,3.5,6.63l8.5-4.5a3.74,3.74,0,0,0-.23-6.74Z"/><polygon fill="currentColor" stroke="none" points="10 14.65 15 12 10 9.35 10 14.65"/></svg>
             <span class="text-[10px]">Shorts</span>
         </div>
-        
-        <!-- Menu Subscriptions -->
-        <div class="flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-gray-700">
+        <div class="nav-btn flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-gray-700 active-click">
             <span class="material-symbols-outlined text-[26px]">subscriptions</span>
             <span class="text-[10px]">Subscription</span>
         </div>
-        
-        <!-- Menu Anda -->
-        <div class="flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-gray-700">
-            <span class="material-symbols-outlined text-[26px]">account_circle</span>
+        <div onclick="switchView('view-profile', this)" class="nav-btn flex flex-col items-center justify-center gap-0.5 w-1/4 cursor-pointer text-gray-700">
+            <img src="https://ui-avatars.com/api/?name=DT&background=f87171&color=fff" class="w-6 h-6 rounded-full border border-gray-300">
             <span class="text-[10px]">Anda</span>
         </div>
-        
     </nav>
 
+    <!-- SCRIPT LOGIKA NAVIGASI & INTERAKSI -->
+    <script>
+        // Logika Switch Tab (Bottom Nav)
+        function switchView(viewId, btnElement) {
+            // Sembunyikan semua section
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Tampilkan yang dipilih
+            document.getElementById(viewId).classList.remove('hidden');
+
+            // Update style tombol nav bawah (warna hitam untuk aktif, abu-abu untuk nonaktif)
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-black');
+                btn.classList.add('text-gray-700');
+            });
+            if(btnElement) {
+                btnElement.classList.remove('text-gray-700');
+                btnElement.classList.add('text-black');
+            }
+        }
+
+        // Logika Overlay Search
+        function openSearch() {
+            document.getElementById('view-search').classList.remove('hidden');
+        }
+        function closeSearch() {
+            document.getElementById('view-search').classList.add('hidden');
+        }
+
+        // Logika Buka Halaman Channel
+        function openChannel() {
+            document.getElementById('view-channel').classList.remove('hidden');
+        }
+        function closeChannel() {
+            document.getElementById('view-channel').classList.add('hidden');
+        }
+
+        // Logika Animasi Tombol Subscribe/Disubscribe (Berdasarkan Screenshot Upin Ipin)
+        function toggleSubscribe(btn) {
+            // Hapus animasi sebelumnya biar bisa diputar ulang
+            btn.classList.remove('anim-subscribe');
+            void btn.offsetWidth; // trigger reflow
+            
+            if (btn.innerText.trim() === 'Subscribe') {
+                btn.innerText = 'Disubscribe';
+                // Ubah style ke versi abu-abu/disubscribe
+                btn.className = 'anim-subscribe bg-gray-100 text-black px-4 py-2 rounded-full w-full font-medium mt-3 transition-all active-click';
+            } else {
+                btn.innerText = 'Subscribe';
+                // Ubah style balik ke hitam
+                btn.className = 'bg-black text-white px-4 py-2 rounded-full w-full font-medium mt-3 transition-all active-click';
+            }
+        }
+    </script>
 </body>
-  </html>
+                            </html>
